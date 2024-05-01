@@ -3,6 +3,7 @@ const mongoose = require("mongoose")
 
 const app = express()
 const bookRoutes = require("./routes/bookRoutes")
+const userRoutes = require("./routes/userRoutes")
 
 mongoose
    .connect("mongodb+srv://aurelienlh83:8vhebFJPKcMtzPQZ@atlascluster.hdy3j8v.mongodb.net/Mon_vieux_grimoire?retryWrites=true&w=majority&appName=AtlasCluster")
@@ -19,5 +20,6 @@ app.use((req, res, next) => {
 })
 
 app.use("/api/books", bookRoutes)
+app.use("/api/auth", userRoutes)
 
 module.exports = app
