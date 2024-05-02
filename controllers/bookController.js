@@ -3,7 +3,14 @@ const Book = require("../models/Book")
 exports.createBook = (req, res, next) => {
    delete req.body._id
    const book = new Book({
-      ...req.body,
+      _id: req.params.id,
+      userId: req.body.userId,
+      title: req.body.title,
+      author: req.body.author,
+      imageUrl: req.body.imageUrl,
+      year: req.body.year,
+      genre: req.body.genre,
+      /*       ratings: [{ userId: req.body.userId, grade: req.body.grade }], */
    })
    book
       .save()
@@ -32,7 +39,6 @@ exports.editBook = (req, res, next) => {
       imageUrl: req.body.imageUrl,
       year: req.body.year,
       genre: req.body.genre,
-      ratings: [req.body.userId, req.body.grade],
    })
    Book.updateOne({ _id: req.params.id }, book)
       .then(() => {
