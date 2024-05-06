@@ -1,5 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const path = require("path")
 
 const app = express()
 const bookRoutes = require("./routes/bookRoutes")
@@ -21,5 +22,6 @@ app.use((req, res, next) => {
 
 app.use("/api/books", bookRoutes)
 app.use("/api/auth", userRoutes)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 
 module.exports = app
