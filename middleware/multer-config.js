@@ -6,7 +6,7 @@ const MIME_TYPES = {
    "image/png": "png",
    "image/webp": "webp",
 }
-
+//Multer configuré en mode buffer et avec pris en compte de certains types de fichiers
 const storage = multer.memoryStorage()
 const upload = multer({
    storage: storage,
@@ -15,7 +15,7 @@ const upload = multer({
       if (isValidMimeType) {
          callback(null, true)
       } else {
-         callback(new Error("Invalid file type. Only images are allowed."))
+         callback(new Error("Type de fichier invalide. Seules les images sont autorisées."))
       }
    },
 })

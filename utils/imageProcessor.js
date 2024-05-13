@@ -4,7 +4,7 @@ const fs = require("fs")
 const path = require("path")
 
 async function compressImage(buffer) {
-   return sharp(buffer).resize({ width: 463, height: 595 }).toBuffer()
+   return sharp(buffer).resize({ width: 463 }).toBuffer()
 }
 
 async function saveImage(buffer, originalName, destination) {
@@ -29,7 +29,7 @@ async function saveImage(buffer, originalName, destination) {
       await sharp(buffer).webp().toFile(link)
       return link
    } catch (err) {
-      throw new Error(`Failed to save image: ${err.message}`)
+      throw new Error(`Echec de sauvegarde d'image: ${err.message}`)
    }
 }
 
