@@ -105,16 +105,21 @@ exports.rateBook = async (req, res, next) => {
          return res.status(404).json({ message: "Livre non trouvé" })
       }
 
+      // Vérification si l'utilisateur a déjà noté ce livre
+      const userRating = book.ratings.find((rating) => rating.userId.toString() === req.auth.userId)
+      if (userRating) {
+         return res.status(403).json({ message: "L'Utilisateur a déjà noté le livre" })
+      }
       // Ajout de la nouvelle note à la liste des notes du livre
       book.ratings.push({ userId: req.auth.userId, grade: req.body.rating })
 
       // Calcul de la moyenne des notes arrondi à un chiffre après la virgule
       const sommeNotes = book.ratings.reduce((total, rating) => total + rating.grade, 0)
-      const moyenne = Math.round((sommeNotes / book.ratings.length) * 10) / 10
-      book.averageRating = moyenne
+      const moyenneNotes = Math.round((sommeNotes / book.ratings.length) * 10) / 10
+      book.averageRating = moyenneNotes
 
       // Mise à jour du livre avec la nouvelle note et la nouvelle moyenne
-      await Book.updateOne({ _id: book._id }, { $set: { ratings: book.ratings, averageRating: moyenne } })
+      await Book.updateOne({ _id: book._id }, { $set: { ratings: book.ratings, averageRating: book.averageRating } })
 
       const updatedBook = await Book.findOne({ _id: book._id })
       res.status(200).json(updatedBook)
